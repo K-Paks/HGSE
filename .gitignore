@@ -1,0 +1,10 @@
+/data/*
+/.idea/*
+/.ipynb_checkpoints/*
+/notebooks/.ipynb_checkpoints/*
+/__pycache__/*
+
+*.json
+*.csv
+
+secrets.json
