@@ -109,4 +109,4 @@ for file in tqdm(os.listdir(RAW_DATAPATH)[176:]):
         metadata.append((title_fixed, title, file, False))
 
 metadf = pd.DataFrame(metadata, columns=['fixed_title', 'title', 'id', 'success'])
-metadf.to_csv(join('data', 'metadata.csv'))
+metadf.to_csv(join('data', 'metadata.csv'), index=False)
