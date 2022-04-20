@@ -1,6 +1,6 @@
 import os
 print('----------------------')
-os.system('pip show sentence-transformers')
+os.system('conda activate hgse-env')
 print('----------------------')
 
 import streamlit as st
