@@ -8,3 +8,4 @@
 *.csv
 
 secrets.json
+/arch/*
