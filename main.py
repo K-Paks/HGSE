@@ -1,5 +1,7 @@
 import os
-os.system('pip install sentence-transformers')
+print('----------------------')
+os.system('pip uninstall sentence-transformers')
+print('----------------------')
 
 import streamlit as st
 import pandas as pd
