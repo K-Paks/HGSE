@@ -6,6 +6,5 @@
 /arch/*
 
 *.json
-*.csv
 
 secrets.json
