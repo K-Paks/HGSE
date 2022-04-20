@@ -7,4 +7,6 @@ dependencies:
   - python=3.8
   - numpy
   - pandas
-  - sentence-transformers
+  - pip
+  - pip:
+      - sentence-transformers
