@@ -1,6 +1,6 @@
 import os
 print('----------------------')
-os.system('pip uninstall sentence-transformers')
+os.system('pip show sentence-transformers')
 print('----------------------')
 
 import streamlit as st

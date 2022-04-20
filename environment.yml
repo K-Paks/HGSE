@@ -9,4 +9,4 @@ dependencies:
   - pandas
   - pip
   - pip:
-      - sentence-transformers
+        - sentence-transformers
