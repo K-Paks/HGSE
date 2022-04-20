@@ -1,4 +1,4 @@
-print(help(modules))
+print(help('modules'))
 
 import streamlit as st
 import pandas as pd
