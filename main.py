@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from sentence_transformers.util import cos_sim
+
+from utils import dot_score
 
 
 @st.cache
@@ -31,24 +32,16 @@ if query:
     st.write('Results for: ', query)
 
     query_embedding = model.encode(query)
-    scores = cos_sim(query_embedding, embeddings)
+    scores = dot_score(query_embedding, embeddings)
     scores = scores.numpy()[0]
     ordered = pd.factorize(scores, sort=True)[0]
-    df = pd.DataFrame( (scores, ordered), index=['score', 'order'] ).T.sort_values(by='order', ascending=False)
+    df = pd.DataFrame((scores, ordered), index=['score', 'order']).T.sort_values(by='order', ascending=False)
     idx = df.index.values
     relevant_titles = titles[idx]
     scores_sorted = scores[idx]
 
     for title, score in zip(relevant_titles[:10], scores_sorted[:10]):
         st.write(title, score)
-
-
-
-
-
-
-
-
 
 # img = 'https://s3.viva.pl/newsy/zmarl-boo-najpopularniejszy-pies-swiata-561503-GALLERY_BIG.jpg'
 # link = '[GitHub](http://github.com)'
