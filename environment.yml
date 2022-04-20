@@ -1,0 +1,9 @@
+name: hgse-env
+
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - numpy
+  - pandas
+  - sentence-transformer=2.2.0
