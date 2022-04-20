@@ -1,8 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-
-from utils import dot_score
+from sentence_transformers.util import dot_score
 
 
 @st.cache
