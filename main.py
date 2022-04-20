@@ -1,5 +1,5 @@
 import os
-os.system('pip list')
+os.system('pip install sentence-transformers')
 
 import streamlit as st
 import pandas as pd
