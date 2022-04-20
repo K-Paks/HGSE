@@ -1,6 +1,6 @@
 import os
 print('----------------------')
-os.system('activate hgse-env')
+os.system('conda env list')
 print('----------------------')
 
 import streamlit as st
