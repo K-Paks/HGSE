@@ -1,7 +1,8 @@
 import os
-print('----------------------')
+os.system('echo ----------------------')
 os.system('conda env list')
-print('----------------------')
+os.system('sudo conda env list')
+os.system('echo ----------------------')
 
 import streamlit as st
 import pandas as pd
