@@ -1,13 +1,6 @@
-import os
-os.system('echo ----------------------')
-os.system('conda env list')
-os.system('sudo conda env list')
-os.system('echo ----------------------')
-
 import streamlit as st
 import pandas as pd
 import numpy as np
-import sentence_transformers
 
 from utils import dot_score
 
@@ -16,9 +9,6 @@ from utils import dot_score
 def load_resources():
     import pickle
 
-    print(222222222222222)
-    print(sentence_transformers)
-    print(222222222222222)
     with open('model.pkl', 'rb') as f:
         model = pickle.load(f)
 
