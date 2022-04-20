@@ -1,21 +1,21 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-
-from utils import dot_score
-
-
-@st.cache
-def load_resources():
-    import pickle
-
-    with open('model.pkl', 'rb') as f:
-        model = pickle.load(f)
-
-    enc_df = pd.read_csv('encoded_titles.csv')
-    titles = enc_df['title']
-    embeddings = enc_df[[col for col in enc_df.columns if col != 'title']].values
-    return model, titles, embeddings.astype(np.float32)
+# import pandas as pd
+# import numpy as np
+#
+# from utils import dot_score
+#
+#
+# @st.cache
+# def load_resources():
+#     import pickle
+#
+#     with open('model.pkl', 'rb') as f:
+#         model = pickle.load(f)
+#
+#     enc_df = pd.read_csv('encoded_titles.csv')
+#     titles = enc_df['title']
+#     embeddings = enc_df[[col for col in enc_df.columns if col != 'title']].values
+#     return model, titles, embeddings.astype(np.float32)
 
 
 st.title("Healthy Gamer Search Engine")
@@ -23,25 +23,25 @@ st.title("Healthy Gamer Search Engine")
 st.subheader("Improve your mental health with the improved search engine!")
 
 # # #
-
-model, titles, embeddings = load_resources()
-
-query = st.text_input("What's on your mind?")
-
-if query:
-    st.write('Results for: ', query)
-
-    query_embedding = model.encode(query)
-    scores = dot_score(query_embedding, embeddings)
-    scores = scores.numpy()[0]
-    ordered = pd.factorize(scores, sort=True)[0]
-    df = pd.DataFrame((scores, ordered), index=['score', 'order']).T.sort_values(by='order', ascending=False)
-    idx = df.index.values
-    relevant_titles = titles[idx]
-    scores_sorted = scores[idx]
-
-    for title, score in zip(relevant_titles[:10], scores_sorted[:10]):
-        st.write(title, score)
+#
+# model, titles, embeddings = load_resources()
+#
+# query = st.text_input("What's on your mind?")
+#
+# if query:
+#     st.write('Results for: ', query)
+#
+#     query_embedding = model.encode(query)
+#     scores = dot_score(query_embedding, embeddings)
+#     scores = scores.numpy()[0]
+#     ordered = pd.factorize(scores, sort=True)[0]
+#     df = pd.DataFrame((scores, ordered), index=['score', 'order']).T.sort_values(by='order', ascending=False)
+#     idx = df.index.values
+#     relevant_titles = titles[idx]
+#     scores_sorted = scores[idx]
+#
+#     for title, score in zip(relevant_titles[:10], scores_sorted[:10]):
+#         st.write(title, score)
 
 # img = 'https://s3.viva.pl/newsy/zmarl-boo-najpopularniejszy-pies-swiata-561503-GALLERY_BIG.jpg'
 # link = '[GitHub](http://github.com)'
