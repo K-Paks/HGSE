@@ -1,4 +1,5 @@
-print(help('modules'))
+import os
+os.system('pip list')
 
 import streamlit as st
 import pandas as pd
