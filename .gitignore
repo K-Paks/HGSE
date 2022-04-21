@@ -6,5 +6,7 @@
 /arch/*
 
 *.json
+*.pkl
+*.csv
 
 secrets.json
