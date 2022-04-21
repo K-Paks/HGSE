@@ -4,6 +4,7 @@
 /notebooks/.ipynb_checkpoints/*
 /__pycache__/*
 /arch/*
+/.streamlit/*
 
 *.json
 *.pkl

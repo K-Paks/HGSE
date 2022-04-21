@@ -8,28 +8,27 @@ from sentence_transformers.util import dot_score
 from gdrive import download_file_from_google_drive
 
 
-@st.cache
-def download_files():
-    with open('secrets.json', 'r') as f:
-        secrets = json.load(f)
+@st.cache(allow_output_mutation=True)
+def load_model():
+    from sentence_transformers import SentenceTransformer
+    model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
+    return model
 
-    for key, suffix in zip(['embeddings', 'index_map', 'model'], ['.csv', '.csv', '.pkl']):
-        file_id = secrets[key]
-        destination = key + suffix
-        download_file_from_google_drive(file_id, destination)
+
+def download_resources():
+    import os
+    for key in ['embeddings', 'index_map']:
+        destination = key + '.csv'
+        if destination not in os.listdir('.'):
+            file_id = st.secrets[key]
+            download_file_from_google_drive(file_id, destination)
 
 
 @st.cache
 def load_resources():
-    import pickle
-
-    with open('model.pkl', 'rb') as f:
-        model = pickle.load(f)
-
-    # enc_df = pd.read_csv('encoded_titles.csv')
-    embs = np.genfromtxt('enc_txts.csv', delimiter=',')
+    embs = np.genfromtxt('embeddings.csv', delimiter=',')
     idx_df = pd.read_csv('index_map.csv')
-    return model, embs.astype(np.float32), idx_df
+    return embs.astype(np.float32), idx_df
 
 
 st.title("Healthy Gamer Search Engine")
@@ -37,9 +36,9 @@ st.title("Healthy Gamer Search Engine")
 st.subheader("Improve your mental health with the improved search engine!")
 
 # # #
-
-download_files()
-model, embeddings, index_mapping = load_resources()
+model = load_model()
+download_resources()
+embeddings, index_mapping = load_resources()
 
 query = st.text_input("What's on your mind?")
 
