@@ -54,7 +54,7 @@ def video_idcs_to_names(index_mapping, vid, idx):
     time_m = int((time - time_h * 3600) // 60)
     time_s = int((time - time_h * 3600 - time_m * 60))
     time_start = f'{time_h:02d}:{time_m:02d}:{time_s:02d}'
-    return title, name, video_id, time_start
+    return title, name, video_id, int(time), time_start
 
 
 if query:
@@ -76,14 +76,16 @@ if query:
             continue
 
         suggested_videos.append(video_id)
-        title, name, video_id, time_start = video_idcs_to_names(index_mapping, vid=video_id, idx=index)
+        title, name, video_id, time_raw, time_start = video_idcs_to_names(index_mapping, vid=video_id, idx=index)
 
         col1, mid, col2 = st.columns([1, 3, 20])
         with col1:
             st.image(f'https://i.ytimg.com/vi/{video_id}/default.jpg', width=100)
         with col2:
             st.markdown(f'[{title}](https://www.youtube.com/watch?v={video_id})', unsafe_allow_html=True)
-            st.text(f'Relatable part: {name}. Starts at {time_start}')
+            if name != 'None':
+                name = name.replace('- ', '')
+                st.markdown(f'Relatable part: [{name}](https://youtu.be/{video_id}?t={time_raw}). Starts at {time_start}')
         #
         # st.markdown("""---""")
 
