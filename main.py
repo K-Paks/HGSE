@@ -27,7 +27,6 @@ def download_resources():
 @st.cache
 def load_resources():
     embs = pd.read_csv('embeddings.csv', index_col=[0, 1])
-    # embs = emb_df[[x for x in emb_df.columns if 'video_id' not in x]]
     idx_df = pd.read_csv('index_map.csv')
     return embs.astype(np.float32), idx_df
 
@@ -38,7 +37,7 @@ st.subheader("Improve your mental health with the improved search engine!")
 
 # # #
 model = load_model()
-# download_resources()
+download_resources()
 embeddings, index_mapping = load_resources()
 
 query = st.text_input("What's on your mind?")
