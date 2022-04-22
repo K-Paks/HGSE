@@ -1,4 +1,4 @@
-# hgsearcher
+# Healthy Gamer Search Engine
 
 ## Improve your mental health with the improved search engine!
 
