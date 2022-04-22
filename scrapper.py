@@ -41,7 +41,7 @@ for _ in tqdm(range(10)):
         params['pageToken'] = resp_json.get('nextPageToken')
 
 metadata = []
-for file in tqdm(os.listdir(RAW_DATAPATH)[176:]):
+for file in tqdm(os.listdir(RAW_DATAPATH)[:]):
     filepath = join(RAW_DATAPATH, file)
 
     with open(filepath, 'r') as f:
@@ -78,35 +78,35 @@ for file in tqdm(os.listdir(RAW_DATAPATH)[176:]):
 
     # get captions
     video_id = snippet['resourceId']['videoId']
-    try:
-        captions = YouTubeTranscriptApi.get_transcript(video_id)
+    # try:
+    #     captions = YouTubeTranscriptApi.get_transcript(video_id)
+    #
+    #     if not timestamps.empty:
+    #         # match captions with timestamps
+    #         cap_dict = defaultdict(list)
+    #
+    #         for cap in captions:
+    #             videopart_no = sum(cap['start'] > timestamps['time']) - 1
+    #             cap_dict[videopart_no].append(cap['text'])
+    #
+    #         for cap_dict_key in cap_dict.keys():
+    #             cap_dict[cap_dict_key] = ' '.join(cap_dict[cap_dict_key])
+    #
+    #         cap_df = pd.DataFrame(cap_dict, index=['captions']).T
+    #
+    #         cap_ts_df = timestamps.join(cap_df)
+    #     else:
+    #         captions = [cap['text'] for cap in captions]
+    #         cap_ts_df = pd.DataFrame([[0, 'None', ' '.join(captions)]], columns=['time', 'name', 'captions'])
+    #
+    #     # save to csv
+    #     cap_ts_df.to_csv(join(CAPTIONPATH, title_fixed + '.csv'), index=False)
+    #     success = True
+    #
+    # except Exception as e:
+    #     print(f'Failed for {title}: \n {e}')
+    #     success = False
+    metadata.append((title_fixed, title, file, video_id, True))
 
-        if not timestamps.empty:
-            # match captions with timestamps
-            cap_dict = defaultdict(list)
-
-            for cap in captions:
-                videopart_no = sum(cap['start'] > timestamps['time']) - 1
-                cap_dict[videopart_no].append(cap['text'])
-
-            for cap_dict_key in cap_dict.keys():
-                cap_dict[cap_dict_key] = ' '.join(cap_dict[cap_dict_key])
-
-            cap_df = pd.DataFrame(cap_dict, index=['captions']).T
-
-            cap_ts_df = timestamps.join(cap_df)
-        else:
-            captions = [cap['text'] for cap in captions]
-            cap_ts_df = pd.DataFrame([[0, 'None', ' '.join(captions)]], columns=['time', 'name', 'captions'])
-
-        # save to csv
-        cap_ts_df.to_csv(join(CAPTIONPATH, title_fixed + '.csv'), index=False)
-
-        metadata.append((title_fixed, title, file, True))
-
-    except Exception as e:
-        print(f'Failed for {title}: \n {e}')
-        metadata.append((title_fixed, title, file, False))
-
-metadf = pd.DataFrame(metadata, columns=['fixed_title', 'title', 'id', 'success'])
+metadf = pd.DataFrame(metadata, columns=['fixed_title', 'title', 'id', 'video_id', 'success'])
 metadf.to_csv(join('data', 'metadata.csv'), index=False)
