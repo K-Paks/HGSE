@@ -85,8 +85,6 @@ if query:
             if name != 'None':
                 name = name.replace('- ', '')
                 st.markdown(f'Relatable part: [{name}](https://youtu.be/{video_id}?t={time_raw}). Starts at {time_start}')
-        #
-        # st.markdown("""---""")
 
         if len(suggested_videos) == 10:
             break
