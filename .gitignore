@@ -1,6 +1,7 @@
 data_capt/
 .idea/
 .ipynb_checkpoints/
+notebooks/
 __pycache__/
 arch/
 .streamlit/
