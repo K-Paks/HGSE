@@ -1,10 +1,9 @@
-/data/*
-/.idea/*
-/.ipynb_checkpoints/*
-/notebooks/.ipynb_checkpoints/*
-/__pycache__/*
-/arch/*
-/.streamlit/*
+data_capt/
+.idea/
+.ipynb_checkpoints/
+__pycache__/
+arch/
+.streamlit/
 
 *.json
 *.pkl

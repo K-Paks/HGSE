@@ -11,8 +11,8 @@ import numpy as np
 import pandas as pd
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled, NoTranscriptFound
 
-RAW_DATAPATH = join('data', 'raw_jsons')
-CAPTIONPATH = join('data', 'captions')
+RAW_DATAPATH = join('data_capt', 'raw_jsons')
+CAPTIONPATH = join('data_capt', 'captions')
 
 with open('secrets.json', 'r') as f:
     key = json.load(f)['key']
@@ -109,4 +109,4 @@ for file in tqdm(os.listdir(RAW_DATAPATH)[:]):
     metadata.append((title_fixed, title, file, video_id, True))
 
 metadf = pd.DataFrame(metadata, columns=['fixed_title', 'title', 'id', 'video_id', 'success'])
-metadf.to_csv(join('data', 'metadata.csv'), index=False)
+metadf.to_csv(join('data_capt', 'metadata.csv'), index=False)

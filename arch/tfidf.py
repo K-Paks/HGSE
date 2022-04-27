@@ -12,14 +12,14 @@ from sklearn.pipeline import Pipeline
 
 nltk.download('stopwords')
 
-documents_path = os.path.join('data', 'subtitles')
+documents_path = os.path.join('data_capt', 'subtitles')
 documents = os.listdir(documents_path)
 
 texts = []
 titles = []
 for document in documents:
     try:
-        doc_path = os.path.join('data', 'subtitles', document)
+        doc_path = os.path.join('data_capt', 'subtitles', document)
 
         with open(doc_path, 'r') as f:
             doc_json = json.load(f)
@@ -37,8 +37,8 @@ for document in documents:
     # stop_words = stopwords.words('english')
     # symbols = "!\"#$%&()*+-./:;<=>?@[\]^_`{|}~\n"
     # for i in symbols:
-    #     data = np.char.replace(words, i, ' ')
-    # np.char.replace(data, "'", "")
+    #     data_capt = np.char.replace(words, i, ' ')
+    # np.char.replace(data_capt, "'", "")
     # porter = PorterStemmer()
     # stemmed = [porter.stem(word) for word in words if word not in stop_words]
 
