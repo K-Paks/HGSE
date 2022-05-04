@@ -2,7 +2,7 @@ import pandas as pd
 from sentence_transformers.util import dot_score
 
 from src.resources.data_controls import download_resources, load_resources, load_transformer
-from src.utils import video_idcs_to_names
+from src.utils.util_funcs import video_idcs_to_names
 
 
 class NLPModel:
