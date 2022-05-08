@@ -6,7 +6,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from gdrive import download_file_from_google_drive
+from src.utils.gdrive import download_file_from_google_drive
 
 
 @st.cache(allow_output_mutation=True)
