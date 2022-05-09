@@ -1,7 +1,10 @@
 import io
 import sqlite3
 
+import pandas as pd
 import numpy as np
+
+from src.resources.data_controls import load_resources
 
 
 def adapt_array(array):
@@ -55,28 +58,50 @@ class DatabaseController:
                        )''')
         self.connection.commit()
 
-    def populate_db(self, embeddings, index_mapping):
-        print('Populating `embeddings`...')
-        for emb in embeddings.iterrows():
-            video_id, video_part_id = emb[0]
-            embedding = emb[1].values
-            self.cursor.execute('INSERT INTO embeddings (video_id, video_part_id, embedding) VALUES (?, ?, ?)',
-                                (video_id, video_part_id, embedding))
-        self.connection.commit()
+    def populate_db(self):
+        # if `embeddings` empty, populate
+        if not self.check_if_empty('embeddings'):
+            print('Populating `embeddings`...')
+            embeddings = load_resources('embeddings')
 
-        print('Populating `mapping`...')
-        for idx in index_mapping.iterrows():
-            items = idx[1]
-            fixed_title, name, index, time, title, video_id = items.values
-            self.cursor.execute('INSERT INTO mapping (video_id, video_part_id, title, fixed_title, name, time) '
-                                'VALUES (?, ?, ?, ?, ?, ?)',
-                                (video_id, index, title, fixed_title, name, time))
-        self.connection.commit()
+            for emb in embeddings.iterrows():
+                video_id, video_part_id = emb[0]
+                embedding = emb[1].values
+                self.cursor.execute('INSERT INTO embeddings (video_id, video_part_id, embedding) VALUES (?, ?, ?)',
+                                    (video_id, video_part_id, embedding))
+            self.connection.commit()
+
+        # if `mapping` empty, populate
+        if not self.check_if_empty('mapping'):
+            print('Populating `mapping`...')
+            index_mapping = load_resources('mapping')
+
+            for idx in index_mapping.iterrows():
+                items = idx[1]
+                fixed_title, name, index, time, title, video_id = items.values
+                self.cursor.execute('INSERT INTO mapping (video_id, video_part_id, title, fixed_title, name, time) '
+                                    'VALUES (?, ?, ?, ?, ?, ?)',
+                                    (video_id, index, title, fixed_title, name, time))
+            self.connection.commit()
+
+    def check_if_empty(self, dbname):
+        self.cursor.execute(f'SELECT COUNT(*) FROM {dbname}')
+        return self.cursor.fetchone()[0]
 
     def get_embeddings(self):
         self.cursor.execute('SELECT * FROM embeddings')
-        return self.cursor.fetchall()
+        data = self.cursor.fetchall()
+        # TODO make faster? \/
+        df = pd.DataFrame(np.column_stack(list(zip(*data))))
+        df[1] = df[1].astype(int)
+        df = df.set_index([0, 1])
+        df = df.astype(np.float32)
+        df.index.names = ['video_id', 'video_part_id']
+        return df
 
     def get_mapping(self):
         self.cursor.execute('SELECT * FROM mapping')
-        return self.cursor.fetchall()
+        data = self.cursor.fetchall()
+        df = pd.DataFrame(data, columns=['video_id', 'video_part_id', 'title', 'fixed_title', 'name', 'time'])
+        return df
+

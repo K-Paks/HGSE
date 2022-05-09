@@ -1,21 +1,22 @@
 import streamlit as st
 
-from src.model.nlp_model import NLPModel
+from src.model.model_handler import ModelHandler
+from src.resources.db_controls import DatabaseController
 
 # header
 st.title("Healthy Gamer Search Engine")
 st.subheader("Improve your mental health with the improved search engine!")
 query = st.text_input("What's on your mind?")
 
-
-nlpmodel = NLPModel()
+dbc = DatabaseController()
+handler = ModelHandler(dbc)
 
 if query:
     st.write('Results for: ', query)
 
     # get embeddings
-    score_df = nlpmodel.get_scores(query)
-    suggestions = nlpmodel.get_suggestions(score_df)
+    score_df = handler.get_scores(query)
+    suggestions = handler.get_suggestions(score_df)
 
     for sugg in suggestions:
         # show results

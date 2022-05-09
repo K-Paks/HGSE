@@ -16,6 +16,7 @@ def load_transformer():
 
 
 def download_resources():
+    print('NOT CACHING! FIX FOR PROD IN STREAMLIT')
     Path('resources').mkdir(exist_ok=True)
 
     for key in ['embeddings', 'index_map']:
@@ -26,13 +27,15 @@ def download_resources():
 
 
 @st.cache
-def load_resources():
-    embs = pd.read_csv(join('resources', 'embeddings.csv'), index_col=[0, 1])
-    embs = embs.astype(np.float32)
-    idx_df = pd.read_csv(join('resources', 'index_map.csv'))
-    # TODO fix in source \/
-    idx_df['time'] = idx_df['time'].astype('int')
-    #
-    # embs = embs.set_index(['video_id', 'index'])
-    # idx_df = idx_df.set_index(['video_id', 'index'])
-    return embs, idx_df
+def load_resources(fname):
+    if fname == 'embeddings':
+        data = pd.read_csv(join('resources', 'embeddings.csv'), index_col=[0, 1])
+        data = data.astype(np.float32)
+    elif fname == 'mapping':
+        data = pd.read_csv(join('resources', 'index_map.csv'))
+        # TODO fix in source \/
+        data['time'] = data['time'].astype('int')
+    else:
+        raise Exception('fname not recognized')
+
+    return data

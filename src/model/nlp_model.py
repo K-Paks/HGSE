@@ -8,18 +8,17 @@ from src.utils.util_funcs import video_idcs_to_names
 class NLPModel:
     def __init__(self):
         self.model = load_transformer()
-        # TODO pass embeddings and index_mapping
 
-    def get_scores(self, query, embeddings):
+    def calculate_similarity(self, query, embeddings):
         query_embedding = self.model.encode(query)
         scores = dot_score(query_embedding, embeddings.values)
         score_df = pd.DataFrame(scores.numpy().squeeze(), index=embeddings.index)
         score_df = score_df.reset_index()
-        score_df.columns = ['video_id', 'index', 'score']
+        score_df.columns = ['video_id', 'video_part_id', 'score']
         score_df = score_df.sort_values(by='score', ascending=False)
         return score_df
 
-    def get_suggestions(self, score_df, index_mapping):
+    def suggest(self, score_df, index_mapping):
         suggested_videos = []
         suggested_video_ids = []
         for video in score_df.values:

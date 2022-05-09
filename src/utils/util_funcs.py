@@ -1,6 +1,6 @@
 def video_idcs_to_names(index_mapping, vid, idx):
     # get item
-    item = index_mapping[(index_mapping['video_id'] == vid) & (index_mapping['index'] == idx)]
+    item = index_mapping[(index_mapping['video_id'] == vid) & (index_mapping['video_part_id'] == idx)]
 
     # split item
     title = item['title'].item()
