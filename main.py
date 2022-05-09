@@ -7,14 +7,15 @@ st.title("Healthy Gamer Search Engine")
 st.subheader("Improve your mental health with the improved search engine!")
 query = st.text_input("What's on your mind?")
 
-model = NLPModel()
+
+nlpmodel = NLPModel()
 
 if query:
     st.write('Results for: ', query)
 
     # get embeddings
-    score_df = model.get_scores(query)
-    suggestions = model.get_suggestions(score_df)
+    score_df = nlpmodel.get_scores(query)
+    suggestions = nlpmodel.get_suggestions(score_df)
 
     for sugg in suggestions:
         # show results

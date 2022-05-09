@@ -9,5 +9,6 @@ arch/
 *.json
 *.pkl
 *.csv
+*.db
 
 secrets.json

@@ -28,5 +28,9 @@ def download_resources():
 @st.cache
 def load_resources():
     embs = pd.read_csv(join('resources', 'embeddings.csv'), index_col=[0, 1])
+    embs = embs.astype(np.float32)
     idx_df = pd.read_csv(join('resources', 'index_map.csv'))
-    return embs.astype(np.float32), idx_df
+    #
+    # embs = embs.set_index(['video_id', 'index'])
+    # idx_df = idx_df.set_index(['video_id', 'index'])
+    return embs, idx_df

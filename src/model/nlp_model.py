@@ -7,21 +7,19 @@ from src.utils.util_funcs import video_idcs_to_names
 
 class NLPModel:
     def __init__(self):
-        download_resources()
-
         self.model = load_transformer()
-        self.embeddings, self.index_mapping = load_resources()
+        # TODO pass embeddings and index_mapping
 
-    def get_scores(self, query):
+    def get_scores(self, query, embeddings):
         query_embedding = self.model.encode(query)
-        scores = dot_score(query_embedding, self.embeddings.values)
-        score_df = pd.DataFrame(scores.numpy().squeeze(), index=self.embeddings.index)
+        scores = dot_score(query_embedding, embeddings.values)
+        score_df = pd.DataFrame(scores.numpy().squeeze(), index=embeddings.index)
         score_df = score_df.reset_index()
         score_df.columns = ['video_id', 'index', 'score']
         score_df = score_df.sort_values(by='score', ascending=False)
         return score_df
 
-    def get_suggestions(self, score_df):
+    def get_suggestions(self, score_df, index_mapping):
         suggested_videos = []
         suggested_video_ids = []
         for video in score_df.values:
@@ -30,7 +28,7 @@ class NLPModel:
             if video_id in suggested_videos:
                 continue
 
-            title, name, video_id, time_raw, time_start = video_idcs_to_names(self.index_mapping, vid=video_id,
+            title, name, video_id, time_raw, time_start = video_idcs_to_names(index_mapping, vid=video_id,
                                                                               idx=index)
             suggestion = Suggestion(title, name, video_id, time_raw, time_start)
             suggested_videos.append(suggestion)
@@ -48,5 +46,3 @@ class Suggestion:
         self.video_id = video_id
         self.time_raw = time_raw
         self.time_start = time_start
-
-
